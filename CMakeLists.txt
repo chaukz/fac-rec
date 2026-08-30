@@ -6,7 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenCV REQUIRED)
 
-add_executable(fac_rec src/main.cpp)
+add_executable(fac_rec
+    src/main.cpp
+    src/Capture.cpp
+)
 
-target_include_directories(fac_rec PRIVATE ${OpenCV_INCLUDE_DIRS})
+target_include_directories(fac_rec PRIVATE include ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(fac_rec PRIVATE ${OpenCV_LIBS})
