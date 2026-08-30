@@ -1,0 +1,3 @@
+models/*.dat
+data/faces.db
+build/
