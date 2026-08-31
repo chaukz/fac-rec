@@ -9,7 +9,10 @@ find_package(OpenCV REQUIRED)
 add_executable(fac_rec
     src/main.cpp
     src/Capture.cpp
+    src/Detector.cpp
 )
 
 target_include_directories(fac_rec PRIVATE include ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(fac_rec PRIVATE ${OpenCV_LIBS})
+
+target_compile_definitions(fac_rec PRIVATE MODELS_DIR="${CMAKE_SOURCE_DIR}/models")
