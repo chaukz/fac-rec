@@ -1,14 +1,17 @@
 #include "FaceRecord.h"
 #include <iostream>
 
-int main()
-{
+int main() {
     FaceRecord a;
     a.id = 1;
-    std::cout << "Created a, embedding ptr =" << a.embedding << "\n";
+    std::cout << "created a, embedding ptr = " << a.embedding << "\n";
 
-    FaceRecord b = a;
-    std::cout << "Created b, embedding ptr =" << b.embedding << "\n";
+    FaceRecord b;
+    b.id = 2;
+    std::cout << "created b, embedding ptr = " << b.embedding << "\n";
+
+    b = a;   // ASSIGNMENT, not construction -- different code path
+    std::cout << "assigned a into b, embedding ptr = " << b.embedding << "\n";
 
     std::cout << "about to exit -- both destructors run now\n";
     return 0;
