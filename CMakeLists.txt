@@ -16,3 +16,6 @@ target_include_directories(fac_rec PRIVATE include ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(fac_rec PRIVATE ${OpenCV_LIBS})
 
 target_compile_definitions(fac_rec PRIVATE MODELS_DIR="${CMAKE_SOURCE_DIR}/models")
+
+add_executable(test_database tests/test_database.cpp src/FaceRecord.cpp)
+target_include_directories(test_database PRIVATE include)
