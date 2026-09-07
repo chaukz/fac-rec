@@ -6,6 +6,8 @@
 class Encoder
 {
 public:
+    static constexpr int kEmbeddingSize = 128;
+
     Encoder();
     ~Encoder();
     bool load(const std::string &landmarkModel, const std::string &resnetModel);
@@ -13,5 +15,5 @@ public:
 
 private:
     struct Impl;
-    std::unique_ptr<Impl> imp_;
+    std::unique_ptr<Impl> impl_;
 };
