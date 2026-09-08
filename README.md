@@ -11,7 +11,7 @@ Full architecture notes (pipeline diagram, component contracts, milestone breakd
 - [x] **Milestone 3 — Face detection.** `Detector` contract drafted (`include/Detector.h`); Haar cascade implementation next.
 - [x] **Milestone 4 — `FaceRecord` + hand-rolled `FaceDatabase`.** Struct owning a heap-allocated embedding array; custom dynamic array (no `std::vector`) to force real pointer/memory practice.
 - [x] **Milestone 5 — Landmarks + embeddings.** dlib's 68-point shape predictor + 128D ResNet face descriptor.
-- [ ] **Milestone 6 — Persistence.** Binary file I/O to save/load enrolled faces between runs.
+- [x] **Milestone 6 — Persistence.** Binary file I/O to save/load enrolled faces between runs.
 - [ ] **Milestone 7 — Recognition logic.** Distance matching, granted/denied state machine, event log as a hand-built linked list.
 - [ ] **Milestone 8 — Threading.** Split capture and inference across `std::thread`s.
 
