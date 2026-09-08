@@ -36,3 +36,8 @@ add_executable(test_chip_debug tests/test_chip_debug.cpp src/Detector.cpp)
 target_include_directories(test_chip_debug PRIVATE include ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(test_chip_debug PRIVATE ${OpenCV_LIBS} dlib::dlib)
 target_compile_definitions(test_chip_debug PRIVATE MODELS_DIR="${CMAKE_SOURCE_DIR}/models")
+
+add_executable(test_landmarks tests/test_landmarks.cpp src/Capture.cpp src/Detector.cpp)
+target_include_directories(test_landmarks PRIVATE include ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(test_landmarks PRIVATE ${OpenCV_LIBS} dlib::dlib)
+target_compile_definitions(test_landmarks PRIVATE MODELS_DIR="${CMAKE_SOURCE_DIR}/models")
