@@ -41,3 +41,6 @@ add_executable(test_landmarks tests/test_landmarks.cpp src/Capture.cpp src/Detec
 target_include_directories(test_landmarks PRIVATE include ${OpenCV_INCLUDE_DIRS})
 target_link_libraries(test_landmarks PRIVATE ${OpenCV_LIBS} dlib::dlib)
 target_compile_definitions(test_landmarks PRIVATE MODELS_DIR="${CMAKE_SOURCE_DIR}/models")
+
+add_executable(test_persist tests/test_persist.cpp src/FaceRecord.cpp src/FaceDatabase.cpp src/Persistence.cpp)
+target_include_directories(test_persist PRIVATE include)
