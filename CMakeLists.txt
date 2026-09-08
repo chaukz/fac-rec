@@ -44,3 +44,6 @@ target_compile_definitions(test_landmarks PRIVATE MODELS_DIR="${CMAKE_SOURCE_DIR
 
 add_executable(test_persist tests/test_persist.cpp src/FaceRecord.cpp src/FaceDatabase.cpp src/Persistence.cpp)
 target_include_directories(test_persist PRIVATE include)
+
+add_executable(test_matcher tests/test_matcher.cpp src/FaceRecord.cpp src/FaceDatabase.cpp src/Matcher.cpp)
+target_include_directories(test_matcher PRIVATE include)
