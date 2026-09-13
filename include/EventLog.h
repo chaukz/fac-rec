@@ -1,7 +1,7 @@
 #ifndef EVENTLOG_H
 #define EVENTLOG_H
 
-struct LogNOde
+struct LogNode
 {
     long long timestampe;
     int recordId;  // indicates false / no match
@@ -22,5 +22,7 @@ private:
     LogNode *head;
     int size;
 };
+
+
 
 #endif // EVENTLOG_H
