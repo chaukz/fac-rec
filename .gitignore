@@ -1,3 +1,4 @@
 models/*.dat
 data/faces.db
 build/
+CLAUDE.md

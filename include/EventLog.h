@@ -3,7 +3,7 @@
 
 struct LogNode
 {
-    long long timestampe;
+    long long timestamp;
     int recordId;  // indicates false / no match
     char name[64]; // unkown if recordId == -1
     LogNode *next; // linked list pointer
@@ -22,7 +22,5 @@ private:
     LogNode *head;
     int size;
 };
-
-
 
 #endif // EVENTLOG_H
