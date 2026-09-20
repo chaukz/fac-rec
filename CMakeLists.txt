@@ -15,6 +15,7 @@ add_executable(fac_rec
     src/FaceDatabase.cpp
     src/Persistence.cpp
     src/EventLog.cpp
+    src/Matcher.cpp
 )
 
 target_include_directories(fac_rec PRIVATE include ${OpenCV_INCLUDE_DIRS})
@@ -55,3 +56,4 @@ target_include_directories(test_matcher PRIVATE include)
 
 add_executable(test_eventlog tests/test_eventlog.cpp src/EventLog.cpp)
 target_include_directories(test_eventlog PRIVATE include)
+

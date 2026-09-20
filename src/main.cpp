@@ -6,6 +6,8 @@
 #include "Persistence.h"
 #include "EventLog.h"
 #include "FaceDatabase.h"
+#include "Matcher.h"
+#include <chrono>
 
 int main()
 {
@@ -39,6 +41,21 @@ int main()
     {
         for (const cv::Rect &face : detector.detect(frame))
         {
+            float embedding[128];
+            if (encoder.encode(frame, face, embedding))
+            {
+                MatchResult result = findBestMatch(embedding, db, 0.6f);
+                if (result.matched)
+                {
+                    std::cout << "Matched with ID: " << result.recordId << ", Distance: " << result.distance << "\n";
+                    eventLog.append(std::chrono::system_clock::now().time_since_epoch().count(), result.recordId, db.at(result.recordId)->name);
+                }
+                else
+                {
+                    std::cout << "No match found\n";
+                    eventLog.append(std::chrono::system_clock::now().time_since_epoch().count(), -1, "No Match");
+                }
+            }
             cv::rectangle(frame, face, cv::Scalar(0, 255, 0), 2);
         }
         cv::imshow("fac-rec", frame);
