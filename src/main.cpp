@@ -1,5 +1,9 @@
 #include <opencv2/opencv.hpp>
+
 #include <iostream>
+#include <chrono>
+#include <cstring>
+
 #include "Capture.h"
 #include "Detector.h"
 #include "Encoder.h"
@@ -7,7 +11,6 @@
 #include "EventLog.h"
 #include "FaceDatabase.h"
 #include "Matcher.h"
-#include <chrono>
 
 int main()
 {
@@ -35,7 +38,8 @@ int main()
     loadDatabase(db, "data/faces.db");
 
     EventLog eventLog;
-
+    float lastEmbedding[128] = {0};
+    bool hasFace = false;
     cv::Mat frame;
     while (cap.readFrame(frame))
     {
@@ -44,6 +48,9 @@ int main()
             float embedding[128];
             if (encoder.encode(frame, face, embedding))
             {
+                hasFace = true;
+                memcpy(lastEmbedding, embedding, sizeof(float) * 128);
+
                 MatchResult result = findBestMatch(embedding, db, 0.6f);
                 if (result.matched)
                 {
@@ -59,9 +66,37 @@ int main()
             cv::rectangle(frame, face, cv::Scalar(0, 255, 0), 2);
         }
         cv::imshow("fac-rec", frame);
-        if (cv::waitKey(1) == 27)
-            break;
-    }
 
+        int key = cv::waitKey(1);
+        if (key == 27)
+        {
+            break;
+        }
+
+        else if (key == 'e')
+        {
+            if (!hasFace)
+            {
+                std::cout << "No face detected. Press 'e' to enroll a new face when a face is detected.\n";
+                // continue;
+            }
+            else
+            {
+                // enroll new face
+                std::string name;
+                std::cout << "Enter name for new face: ";
+                std::cin >> name;
+                FaceRecord newRecord;
+                newRecord.id = db.size();
+                strncpy(newRecord.name, name.c_str(), sizeof(newRecord.name) - 1);
+                newRecord.enrolledAt = std::chrono::system_clock::now().time_since_epoch().count();
+                newRecord.embedding = new float[128];
+                memcpy(newRecord.embedding, lastEmbedding, sizeof(float) * 128);
+                db.add(newRecord);
+                saveFaceDatabase(db, "data/faces.db");
+                std::cout << "Enrolled new face with ID: " << newRecord.id << "\n";
+            }
+        }
+    }
     return 0;
 }
