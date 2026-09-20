@@ -2,6 +2,10 @@
 #include <iostream>
 #include "Capture.h"
 #include "Detector.h"
+#include "Encoder.h"
+#include "Persistence.h"
+#include "EventLog.h"
+#include "FaceDatabase.h"
 
 int main()
 {
@@ -18,6 +22,17 @@ int main()
         std::cerr << "Failed to load cascade\n";
         return 1;
     }
+
+    Encoder encoder;
+    if (!encoder.load(std::string(MODELS_DIR) + "/shape_predictor_68_face_landmarks.dat", std::string(MODELS_DIR) + "/dlib_face_recognition_resnet_model_v1.dat"))
+    {
+        std::cerr << "Failed to load encoder\n";
+        return 1;
+    }
+    FaceDatabase db;
+    loadDatabase(db, "data/faces.db");
+
+    EventLog eventLog;
 
     cv::Mat frame;
     while (cap.readFrame(frame))
