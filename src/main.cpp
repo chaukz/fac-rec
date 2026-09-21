@@ -34,8 +34,14 @@ int main()
         std::cerr << "Failed to load encoder\n";
         return 1;
     }
+
     FaceDatabase db;
-    loadDatabase(db, "data/faces.db");
+    if (!loadDatabase(db, "data/faces.db"))
+    {
+        std::cerr << "Failed to load face database\n";
+        
+    }
+    
 
     EventLog eventLog;
     float lastEmbedding[128] = {0};
@@ -90,13 +96,22 @@ int main()
                 newRecord.id = db.size();
                 strncpy(newRecord.name, name.c_str(), sizeof(newRecord.name) - 1);
                 newRecord.enrolledAt = std::chrono::system_clock::now().time_since_epoch().count();
-                newRecord.embedding = new float[128];
+                // newRecord.embedding = new float[128];
                 memcpy(newRecord.embedding, lastEmbedding, sizeof(float) * 128);
                 db.add(newRecord);
-                saveFaceDatabase(db, "data/faces.db");
-                std::cout << "Enrolled new face with ID: " << newRecord.id << "\n";
+
+                if (!saveFaceDatabase(db, "data/faces.db"))
+                {
+                    std::cerr << "Failed to save face database\n";
+                }
+                else
+                {
+                    std::cout << "Enrolled new face with ID: " << newRecord.id << "\n";
+                }
             }
         }
-    }
-    return 0;
+        
+       
+}
+return 0;
 }

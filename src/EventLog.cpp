@@ -2,7 +2,7 @@
 #include <cstring>
 #include <cstdio>
 
-EventLog::EventLog() : head(nullptr), size(0) {}
+EventLog::EventLog() : head(nullptr), tail(nullptr), size(0) {}
 EventLog::~EventLog() // Deconstructor function signature
 {
     LogNode *current = head;
@@ -17,26 +17,24 @@ EventLog::~EventLog() // Deconstructor function signature
 
 void EventLog::append(long long timestamp, int recordId, const char *name)
 {
-    LogNode *newNode = new LogNode;                               // Allocate memory for a new LogNode
-    newNode->timestamp = timestamp;                               // Set the timestamp of the new node
-    newNode->recordId = recordId;                                 // Set the recordId of the new node
-    std::strncpy(newNode->name, name, sizeof(newNode->name) - 1); // Copy the name into the new node, ensuring it doesn't exceed the buffer size
-    newNode->name[sizeof(newNode->name) - 1] = '\0';              // Ensure null-termination
-    newNode->next = nullptr;                                      // Set the next pointer of the new node to nullptr
-    if (head == nullptr)                                          // If the list is empty, set the new node as the head
+    LogNode *newNode = new LogNode;
+    newNode->timestamp = timestamp;
+    newNode->recordId = recordId;
+    std::strncpy(newNode->name, name, sizeof(newNode->name) - 1);
+    newNode->name[sizeof(newNode->name) - 1] = '\0';
+    newNode->next = nullptr;
+
+    if (head == nullptr) 
     {
-        head = newNode; // Set the head to the new node
+        head = newNode;
+        tail = newNode; 
     }
-    else
+    else 
     {
-        LogNode *current = head;         // Start from the head of the list
-        while (current->next != nullptr) // Traverse to the end of the list
-        {
-            current = current->next; // Move to the next node
-        }
-        current->next = newNode; // Link the new node at the end of the list
+        tail->next = newNode; 
+        tail = newNode;       
     }
-    size++; // Increment the size of the list
+    size++;
 }
 
 int EventLog::count() const

@@ -1,5 +1,4 @@
 #pragma once
-#include <FaceDatabase.h>
 #include <FaceRecord.h>
 
 class FaceDatabase

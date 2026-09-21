@@ -20,6 +20,7 @@ public:
 
 private:
     LogNode *head;
+    LogNode *tail;
     int size;
 };
 
