@@ -11,7 +11,7 @@ public:
     Encoder();
     ~Encoder();
     bool load(const std::string &landmarkModel, const std::string &resnetModel);
-    bool encode(const cv::Mat &frame, const cv::Rect &faceRect, float *out);
+    bool encode(const cv::Mat &frame, const cv::Rect &faceRect, float *out, cv::Point *landmarks = nullptr);
 
 private:
     struct Impl;

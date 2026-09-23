@@ -39,9 +39,7 @@ int main()
     if (!loadDatabase(db, "data/faces.db"))
     {
         std::cerr << "Failed to load face database\n";
-        
     }
-    
 
     EventLog eventLog;
     float lastEmbedding[128] = {0};
@@ -51,10 +49,15 @@ int main()
     {
         for (const cv::Rect &face : detector.detect(frame))
         {
+            cv::Point landmarks[68];
             float embedding[128];
-            if (encoder.encode(frame, face, embedding))
+            if (encoder.encode(frame, face, embedding, landmarks))
             {
                 hasFace = true;
+                for (int i = 0; i < 68; ++i)
+                {
+                    cv::circle(frame, landmarks[i], 2, cv::Scalar(0, 0, 255), -1);
+                }
                 memcpy(lastEmbedding, embedding, sizeof(float) * 128);
 
                 MatchResult result = findBestMatch(embedding, db, 0.6f);
@@ -110,8 +113,8 @@ int main()
                 }
             }
         }
-        
-       
-}
-return 0;
+    }
+    cv::destroyAllWindows();
+
+    return 0;
 }

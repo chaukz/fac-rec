@@ -58,7 +58,7 @@ bool Encoder::load(const std::string &landmarkModel, const std::string &resnetMo
     return true;
 }
 
-bool Encoder::encode(const cv::Mat &frame, const cv::Rect &faceRect, float *out)
+bool Encoder::encode(const cv::Mat &frame, const cv::Rect &faceRect, float *out, cv::Point *landmarks)
 {
     try
     {
@@ -66,6 +66,13 @@ bool Encoder::encode(const cv::Mat &frame, const cv::Rect &faceRect, float *out)
         dlib::rectangle dlibRect(faceRect.x, faceRect.y, faceRect.x + faceRect.width - 1, faceRect.y + faceRect.height - 1);
 
         full_object_detection shape = impl_->sp(dlibImg, dlibRect);
+        if (landmarks != nullptr)
+        {
+            for (int i = 0; i < shape.num_parts(); ++i)
+            {
+                landmarks[i] = cv::Point(shape.part(i).x(), shape.part(i).y());
+            }
+        }
 
         matrix<rgb_pixel> faceChip;
         extract_image_chip(dlibImg, get_face_chip_details(shape, 150, 0.25), faceChip);
