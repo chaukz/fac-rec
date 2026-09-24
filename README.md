@@ -17,6 +17,35 @@ Full architecture notes (pipeline diagram, component contracts, milestone breakd
 
 ## Build & Run
 
+### Docker (recommended — no dependencies required)
+
+    git clone https://github.com/chaukz/fac-rec.git
+    cd fac-rec
+
+Before building, download the model files into `models/`:
+
+- [`shape_predictor_68_face_landmarks.dat`](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2)
+- [`dlib_face_recognition_resnet_model_v1.dat`](http://dlib.net/files/dlib_face_recognition_resnet_model_v1.dat.bz2)
+
+Both are `.bz2` archives — extract them into `models/` before running `docker build`.
+
+    docker build -t fac-rec .
+
+On Linux, run with webcam and display forwarded:
+
+    xhost +local:docker
+    docker run --device /dev/video0 \
+      -e DISPLAY=$DISPLAY \
+      -v /tmp/.X11-unix:/tmp/.X11-unix \
+      -v $(pwd)/data:/app/data \
+      fac-rec
+
+`--device /dev/video0` passes your webcam through. Adjust the device path if yours differs (e.g. `/dev/video1`). The `data/` volume keeps your enrolled faces between runs.
+
+> macOS / Windows: camera passthrough in Docker Desktop is limited. Use the Nix path below or run Linux in a VM.
+
+### Nix (for development)
+
 Requires [Nix](https://nixos.org/) (developed on NixOS). All dependencies — OpenCV, dlib, CMake, gdb, valgrind — are declared in `shell.nix`, nothing is installed globally.
 
     git clone https://github.com/chaukz/fac-rec.git
