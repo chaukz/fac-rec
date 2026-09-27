@@ -46,6 +46,33 @@ const FaceRecord *FaceDatabase::at(int index) const
     return records_[index];
 }
 
+const FaceRecord *FaceDatabase::findById(int id) const
+{
+    for (int i = 0; i < count_; ++i)
+    {
+        if (records_[i]->id == id)
+        {
+            return records_[i];
+        }
+    }
+    return nullptr;
+}
+
+void FaceDatabase::swap(FaceDatabase &other) noexcept
+{
+    FaceRecord **records = records_;
+    records_ = other.records_;
+    other.records_ = records;
+
+    int count = count_;
+    count_ = other.count_;
+    other.count_ = count;
+
+    int capacity = capacity_;
+    capacity_ = other.capacity_;
+    other.capacity_ = capacity;
+}
+
 bool FaceDatabase::removeById(int id)
 {
     for (int i = 0; i < count_; ++i)
@@ -63,4 +90,3 @@ bool FaceDatabase::removeById(int id)
     }
     return false; // Record with the given ID was not found
 }
-

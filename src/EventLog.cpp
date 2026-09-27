@@ -20,7 +20,7 @@ void EventLog::append(long long timestamp, int recordId, const char *name)
     LogNode *newNode = new LogNode;
     newNode->timestamp = timestamp;
     newNode->recordId = recordId;
-    std::strncpy(newNode->name, name, sizeof(newNode->name) - 1);
+    std::strncpy(newNode->name, name ? name : "", sizeof(newNode->name) - 1);
     newNode->name[sizeof(newNode->name) - 1] = '\0';
     newNode->next = nullptr;
 

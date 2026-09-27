@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenCV REQUIRED)
+find_package(dlib REQUIRED)
+find_package(Threads REQUIRED)
 
 add_executable(fac_rec
     src/main.cpp
@@ -19,14 +21,15 @@ add_executable(fac_rec
 )
 
 target_include_directories(fac_rec PRIVATE include ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(fac_rec PRIVATE ${OpenCV_LIBS} dlib::dlib)
+target_link_libraries(fac_rec PRIVATE ${OpenCV_LIBS} dlib::dlib Threads::Threads)
 
-target_compile_definitions(fac_rec PRIVATE MODELS_DIR="${CMAKE_SOURCE_DIR}/models")
+target_compile_definitions(fac_rec PRIVATE
+    MODELS_DIR="${CMAKE_SOURCE_DIR}/models"
+    DATA_DIR="${CMAKE_SOURCE_DIR}/data"
+)
 
 add_executable(test_database tests/test_database.cpp src/FaceRecord.cpp src/FaceDatabase.cpp)
 target_include_directories(test_database PRIVATE include)
-
-find_package(dlib REQUIRED)
 
 add_executable(test_recognition tests/test_recognition.cpp src/Detector.cpp src/Encoder.cpp)
 target_include_directories(test_recognition PRIVATE include ${OpenCV_INCLUDE_DIRS})
@@ -56,4 +59,3 @@ target_include_directories(test_matcher PRIVATE include)
 
 add_executable(test_eventlog tests/test_eventlog.cpp src/EventLog.cpp)
 target_include_directories(test_eventlog PRIVATE include)
-

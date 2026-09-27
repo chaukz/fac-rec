@@ -24,13 +24,13 @@ FaceRecord &FaceRecord::operator=(const FaceRecord &other)
         return *this;
     }
 
-    delete[] embedding;
-
+    float *replacement = new float[kEmbeddingSize];
+    std::memcpy(replacement, other.embedding, kEmbeddingSize * sizeof(float));
     id = other.id;
     enrolledAt = other.enrolledAt;
     std::memcpy(name, other.name, sizeof(name));
-    embedding = new float[kEmbeddingSize];
-    std::memcpy(embedding, other.embedding, kEmbeddingSize * sizeof(float));
+    delete[] embedding;
+    embedding = replacement;
 
     return *this;
 }

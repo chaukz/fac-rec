@@ -7,10 +7,15 @@ public:
     FaceDatabase();
     ~FaceDatabase();
 
+    FaceDatabase(const FaceDatabase &) = delete;
+    FaceDatabase &operator=(const FaceDatabase &) = delete;
+
     void add(const FaceRecord &rec);       // Add a new face record to the database
     const FaceRecord *at(int index) const; // Get a face record by index
+    const FaceRecord *findById(int id) const;
     int size() const { return count_; }    // Get the number of face records in the database
     bool removeById(int id);               // Remove a face record by its ID, returns true if removed, false if not found
+    void swap(FaceDatabase &other) noexcept;
 
 private:
     void grow(); // Increase the capacity of the database when needed

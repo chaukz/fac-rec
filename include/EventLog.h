@@ -14,6 +14,8 @@ class EventLog
 public:
     EventLog();
     ~EventLog();
+    EventLog(const EventLog &) = delete;
+    EventLog &operator=(const EventLog &) = delete;
     void append(long long timestamp, int recordId, const char *name);
     void printall() const;
     int count() const;
